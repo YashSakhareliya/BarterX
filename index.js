@@ -1,74 +1,57 @@
-import http from 'http'
-import fs from 'fs'
 
-const PORT = 8050
 
-const server = http.createServer((req,res)=>{
-    let log =  `Request Method ${req.method} and url ${req.url} - ${new Date()} \n`
-    console.log(log)
-    fs.appendFileSync('logs.txt',log)
-    if(req.method != 'GET'){
-        // res.writeHead(405)
-        res.end('Method Not Allowed')
-        return  
-    }
+const server = Bun.serve({
+    port:8050,
+    fetch(req){
+        const url = new  URL(req.url)
+        const pathname = url.pathname
+        console.log(url)
+        console.log(pathname)
 
-    switch(req.url){
+
+        switch(pathname){
         case '/':
-            res.write('Welcome to the BarterX')
-            res.end()
-            break
+            return new Response('Welcome to BarterX')
+            
         case '/products':
-            res.write('Here are the products up for Sale in BarterX')
-            res.end()
-            break
+            return new Response('Here are the products up for Sale in BarterX')
+            
         case '/login':
-            res.write('Login to the BarterX')
-            res.end()
-            break
+            return new Response('Login to the BarterX')
+            
         case '/signup':
-            res.write('Sign up to the BarterX')
-            res.end()
-            break
+            return new Response('Sign up to the BarterX')
+            
         case '/profile':
-            res.write('Trader Profile')
-            res.end()
-            break
+            return new Response('Trader Profile')
+            
         case '/cart':
-            res.write('Your Shopping Cart is here')
-            res.end()
-            break
+            return new Response('Your Shopping Cart is here')
+            
         case '/checkout':
-            res.write("Lets' start shipping")
-            res.end()
-            break
+            return new Response("Lets' start shipping")
+            
         case '/orders':
-            res.write('Your Orders are here')
-            res.end()
-            break
+            return new Response('Your Orders are here')
+            
         case '/categories':
-            res.write('Browse Categories')
-            res.end()
-            break
+            return new Response('Browse Categories')
+            
         case '/chat':
-            res.write('Your Chat with fellow Traders')
-            res.end()
-            break
+            return new Response('Your Chat with fellow Traders')
+            
         case '/contact':
-            res.write('Contact Us at')
-            res.end()
-            break
+            return new Response('Contact Us at')
+            
         case '/about':
-            res.write('The modern approach to trading our commodities')
-            res.end()
-            break
+            return new Response('The modern approach to trading our commodities')
+
         default:
-            res.writeHead(404)
-            res.end('Page Not Found')
-            break
+            return new Response(`The modern approach to trading our commodities`)
+            
     }
+    }
+
+    
 })
 
-server.listen(PORT, () => {
-  console.log(`listening on http://localhost:${PORT}`)
-})
