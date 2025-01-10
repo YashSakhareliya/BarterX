@@ -1,4 +1,6 @@
+import { readFileSync } from "fs";
 
+const about_html = readFileSync("./about.html", "utf-8");
 
 const server = Bun.serve({
     port:8050,
@@ -44,14 +46,19 @@ const server = Bun.serve({
             return new Response('Contact Us at')
             
         case '/about':
-            return new Response('The modern approach to trading our commodities')
+            return new Response(about_html,{status: 200,headers: {"Content-Type": "text/html",},})
 
         default:
-            return new Response(`The modern approach to trading our commodities`)
+            let error_code = {
+                "error": "Page not found",
+                "statusCode": 404
+            }
+            return new Response(JSON.stringify(error_code),{status: 200, headers: {"Content-Type": 'application/json',},})
             
     }
     }
 
     
 })
+console.log(`Bun Running on http://localhost:${server.port}`)
 
