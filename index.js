@@ -47,6 +47,13 @@ const server = Bun.serve({
             
         case '/about':
             return new Response(about_html,{status: 200,headers: {"Content-Type": "text/html",},})
+        
+        case '/api/products':
+            let Product_json = [
+                { "id": 1, "name": "Used Laptop", "price": 300 },
+                { "id": 2, "name": "Second-hand Bicycle", "price": 50 }
+            ]
+            return  new Response(JSON.stringify(Product_json),{status: 200,headers: {"Content-Type": "application/json"},})
 
         default:
             let error_code = {
