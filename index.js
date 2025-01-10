@@ -2,6 +2,7 @@ import http from 'http'
 import fs from 'fs'
 
 const PORT = 8050
+const html = fs.readFileSync('index.html')
 
 const server = http.createServer((req,res)=>{
     let log =  `Request Method ${req.method} and url ${req.url} - ${new Date()} \n`
@@ -15,7 +16,8 @@ const server = http.createServer((req,res)=>{
 
     switch(req.url){
         case '/':
-            res.write('Welcome to the BarterX')
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.write(html)
             res.end()
             break
         case '/products':
@@ -59,12 +61,28 @@ const server = http.createServer((req,res)=>{
             res.end()
             break
         case '/about':
-            res.write('The modern approach to trading our commodities')
+            let about =  fs.readFileSync('about.html')
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.write(about)
+            res.end()
+            break
+        case '/api/products':
+            let api = [
+                { "id": 1, "name": "Used Laptop", "price": 300 },
+                { "id": 2, "name": "Second-hand Bicycle", "price": 50 }
+            ]
+            res.writeHead(200, {'Content-Type': 'application/json'})
+            res.write(JSON.stringify(api))
             res.end()
             break
         default:
-            res.writeHead(404)
-            res.end('Page Not Found')
+            let error_json = {
+                "error": "Page not found",
+                "statusCode": 404
+            }
+            res.writeHead(404,{'content-type':'application/json'})
+            res.write(JSON.stringify(error_json))
+            res.end()
             break
     }
 })
