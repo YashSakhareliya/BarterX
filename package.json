@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/YashSakhareliya/BarterX/issues"
   },
-  "homepage": "https://github.com/YashSakhareliya/BarterX#readme"
+  "homepage": "https://github.com/YashSakhareliya/BarterX#readme",
+  "type":"module"
 }
